@@ -1,15 +1,21 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import { IconWhatsApp, IconMenu } from './Icons'
+import { useState, useEffect, useRef } from 'react'
+import { IconWhatsApp, IconMenu, IconDownload } from './Icons'
 import { SITE_NAME, SITE_TAGLINE, PHONE_URL } from '../config/site'
 
 /*
-  Header.jsx — cabeçalho fixo com marca, navegação principal e CTA do WhatsApp.
+  Header.jsx — cabeçalho fixo com marca, navegação principal e CTAs.
 
   MANUTENÇÃO:
   - Itens de navegação: edite o array `links` abaixo (to = rota, end = ativo exato).
   - Fecha o menu mobile automaticamente ao trocar de página (useEffect/ver pathname).
   - Marca e telefone vêm do src/config/site.js.
+  - Instalação PWA:
+    * `beforeinstallprompt` (Chrome/Edge/Android) é capturado e o botão "Instalar"
+      dispara prompt() nativamente.
+    * Em iOS (Safari) não há este evento — o botão vira um "tip" com instruções
+      de "Adicionar à Tela de Início".
+    * O botão some se o app já estiver em modo standalone (instalado).
 */
 
 const links = [
@@ -21,11 +27,52 @@ const links = [
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const [deferredPrompt, setDeferredPrompt] = useState(null)
+  const [showIosTip, setShowIosTip] = useState(false)
+  const tipRef = useRef(null)
   const { pathname } = useLocation()
 
   useEffect(() => {
     setOpen(false)
   }, [pathname])
+
+  useEffect(() => {
+    const onBeforeInstall = (e) => {
+      e.preventDefault()
+      setDeferredPrompt(e)
+    }
+    const onInstalled = () => {
+      setDeferredPrompt(null)
+      setShowIosTip(false)
+    }
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+    if (iOS && !standalone) setShowIosTip(true)
+
+    window.addEventListener('beforeinstallprompt', onBeforeInstall)
+    window.addEventListener('appinstalled', onInstalled)
+    return () => {
+      window.removeEventListener('beforeinstallprompt', onBeforeInstall)
+      window.removeEventListener('appinstalled', onInstalled)
+    }
+  }, [])
+
+  useEffect(() => {
+    const onClickOutside = (e) => {
+      if (tipRef.current && !tipRef.current.contains(e.target)) setShowIosTip(false)
+    }
+    document.addEventListener('click', onClickOutside)
+    return () => document.removeEventListener('click', onClickOutside)
+  }, [])
+
+  const handleInstall = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt()
+      const { outcome } = await deferredPrompt.userChoice
+      if (outcome === 'accepted') setDeferredPrompt(null)
+      else setDeferredPrompt(null)
+    }
+  }
 
   return (
     <header className="site-header" data-od-id="site-header">
@@ -51,6 +98,25 @@ export default function Header() {
           </ul>
         </nav>
         <div className="nav-cta">
+          {(deferredPrompt || showIosTip) && (
+            <div className="nav-install-wrap" ref={tipRef}>
+              <button
+                type="button"
+                className="btn btn--install"
+                onClick={handleInstall}
+                aria-haspopup={showIosTip ? 'dialog' : undefined}
+              >
+                <IconDownload size={15} />
+                Instalar
+              </button>
+              {showIosTip && !deferredPrompt && (
+                <div className="install-tip" role="status">
+                  <b>Instalar o app no iPhone/iPad</b>
+                  <p>Toque no ícone de compartilhar <span aria-hidden="true">↑</span> na barra do Safari e escolha <em>Adicionar à Tela de Início</em>.</p>
+                </div>
+              )}
+            </div>
+          )}
           <a className="btn btn--primary" href={PHONE_URL} target="_blank" rel="noopener">
             <IconWhatsApp size={13} />
             Fale conosco

@@ -1,0 +1,54 @@
+{
+  "name": "BLOKKO — Sua Plataforma Condominial",
+  "short_name": "BLOKKO",
+  "description": "Cursos, eventos, colunistas e indicações de confiança para síndicos e gestores de condomínios.",
+  "lang": "pt-BR",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#2A3BB0",
+  "theme_color": "#2A3BB0",
+  "categories": ["business", "education", "lifestyle"],
+  "icons": [
+    {
+      "src": "/pwa-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Curso e Eventos",
+      "short_name": "Curso/Eventos",
+      "description": "Turmas com inscrições abertas e agenda de eventos",
+      "url": "/cursos-eventos"
+    },
+    {
+      "name": "Colunistas",
+      "short_name": "Colunistas",
+      "description": "Artigos e análises do mercado condominial",
+      "url": "/colunistas"
+    },
+    {
+      "name": "Nós indicamos",
+      "short_name": "Indicações",
+      "description": "Parceiros e fornecedores recomendados",
+      "url": "/nos-indicamos"
+    }
+  ]
+}
