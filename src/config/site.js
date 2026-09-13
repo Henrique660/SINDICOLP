@@ -45,9 +45,9 @@ export const WA_INDICACAO = WhatsAppMsg(
 )
 
 export const SOCIAL = {
-  telegram: 'https://t.me/blokko',
-  youtube: 'https://www.youtube.com/@Blokko',
-  instagram: 'https://www.instagram.com/blokko/'
+  telegram: '#',
+  youtube: '#',
+  instagram: '#/'
 }
 
 export const COPYRIGHT = `${SITE_NAME}. Todos os direitos reservados.`
