@@ -13,12 +13,12 @@
 export const SITE_NAME = 'BLOKKO'
 export const SITE_TAGLINE = 'Sua Plataforma Condominial'
 export const SITE_EMAIL = 'contato@blokko.com.br'
-export const SITE_PHONE = '(11) 98765-4321'
+export const SITE_PHONE = '(51) 9999-9999'
 
-export const PHONE_URL = 'https://wa.me/5511987654321'
+export const PHONE_URL = 'https://wa.me/555199999999'
 
 const WhatsAppMsg = (msg) =>
-  `https://wa.me/5511987654321?text=${encodeURIComponent(msg)}`
+  `https://wa.me/555199999999?text=${encodeURIComponent(msg)}`
 
 export const WA_CHAT = WhatsAppMsg(
   'Olá! Vim pelo site BLOKKO e gostaria de mais informações.'
