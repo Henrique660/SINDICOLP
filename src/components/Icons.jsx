@@ -1,5 +1,5 @@
 /*
-  Icons.jsx — biblioteca de SVGs do projeto BLOKKO.
+  Icons.jsx — biblioteca de SVGs do projeto BLOOKKO.
 
   MANUTENÇÃO:
   - Todos os ícones herdam `currentColor` (cor do contexto onde são usados).
@@ -128,6 +128,15 @@ export function IconChevronRight({ size = 12 }) {
   return (
     <svg viewBox="0 0 24 24" {...stroke} width={size} height={size} aria-hidden="true">
       <path d="m9 18 6-6-6-6" />
+    </svg>
+  )
+}
+
+export function IconSearch({ size = 16 }) {
+  return (
+    <svg viewBox="0 0 24 24" {...stroke} width={size} height={size} aria-hidden="true">
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.35-4.35" />
     </svg>
   )
 }

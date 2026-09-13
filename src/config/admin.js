@@ -9,9 +9,9 @@
     src/config/iconMap.js.
 */
 
-export const ADMIN_EMAIL = 'admin@blokko.com.br'
-export const ADMIN_PASS = 'blokko2026'
-export const SESSION_KEY = 'blokko:session'
+export const ADMIN_EMAIL = 'admin@blookko.com.br'
+export const ADMIN_PASS = 'blookko2026'
+export const SESSION_KEY = 'blookko:session'
 
 export const COLUNISTA_TAGS = [
   'Gestão',
@@ -29,7 +29,9 @@ export const INDICACAO_CATEGORIAS = [
   'Reformas e manutenção',
   'Jurídico condominial',
   'Soluções digitais',
-  'Seguros e proteção'
+  'Seguros e proteção',
+  'Limpeza e conservação',
+  'Eficiência e sustentabilidade'
 ]
 
 export const CURSO_ICONS = [

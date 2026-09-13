@@ -16,18 +16,20 @@ const navItems = [
   { to: '/admin', label: 'Resumo', end: true },
   { to: '/admin/cursos-eventos', label: 'Cursos e Eventos' },
   { to: '/admin/colunistas', label: 'Colunistas' },
-  { to: '/admin/indicamos', label: 'Nós Indicamos' }
+  { to: '/admin/indicamos', label: 'Nós Indicamos' },
+  { to: '/admin/anunciantes', label: 'Anunciantes' }
 ]
 
 export default function AdminLayout() {
   const { logout } = useAuth()
-  const { cursosEventos, colunistas, indicacoes } = useData()
+  const { cursosEventos, colunistas, indicacoes, anunciantes } = useData()
   const navigate = useNavigate()
 
   const counts = {
     '/admin/cursos-eventos': cursosEventos.length,
     '/admin/colunistas': colunistas.length,
-    '/admin/indicamos': indicacoes.length
+    '/admin/indicamos': indicacoes.length,
+    '/admin/anunciantes': anunciantes.length
   }
 
   function onLogout() {
@@ -43,7 +45,7 @@ export default function AdminLayout() {
             <span>B</span>
           </span>
           <span className="brand__name">
-            BLOKKO<small>Painel Administrativo</small>
+            BLOOKKO<small>Painel Administrativo</small>
           </span>
         </div>
         <nav className="admin-nav" aria-label="Menu do painel">

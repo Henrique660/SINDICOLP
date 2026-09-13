@@ -44,7 +44,7 @@ export default function AdminLogin() {
           <span>B</span>
         </span>
         <span className="brand__name">
-          BLOKKO<small>Painel Administrativo</small>
+          BLOOKKO<small>Painel Administrativo</small>
         </span>
       </div>
 
@@ -62,7 +62,7 @@ export default function AdminLogin() {
             autoComplete="username"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="admin@blokko.com.br"
+            placeholder="admin@blookko.com.br"
             required
           />
         </label>

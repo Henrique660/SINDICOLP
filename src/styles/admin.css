@@ -1,15 +1,15 @@
 /* ============================================================
-   BLOKKO — Painel Administrativo (CMS)
+   BLOOKKO — Painel Administrativo (CMS)
    ============================================================ */
 
 :root {
-  --af-bg: #f4f5fa;
+  --af-bg: #faf5ef;
   --af-surface: #ffffff;
-  --af-border: #e4e6ef;
-  --af-text: #1c2033;
-  --af-muted: #7a8098;
-  --af-primary: #2a3bb0;
-  --af-primary-dark: #1f2d8a;
+  --af-border: #ecdfd2;
+  --af-text: #22160d;
+  --af-muted: #8a7264;
+  --af-primary: #f97316;
+  --af-primary-dark: #c2410c;
   --af-danger: #d94250;
   --af-radius: 12px;
   --af-shadow: 0 10px 30px rgba(28, 32, 51, 0.08);
@@ -23,8 +23,8 @@
   place-items: center;
   padding: 32px 16px;
   background:
-    radial-gradient(1100px 480px at 85% -10%, rgba(42, 59, 176, 0.16), transparent 60%),
-    linear-gradient(160deg, #f7f8fd, #eef0f9);
+    radial-gradient(1100px 480px at 85% -10%, rgba(249, 115, 22, 0.16), transparent 60%),
+    linear-gradient(160deg, #fdf7f1, #f9ede0);
 }
 
 .admin-login__brand {
@@ -75,7 +75,7 @@
 
 .admin-login__demo {
   margin-top: 8px;
-  background: #f1f3fb;
+  background: #fbeee2;
   border: 1px dashed var(--af-border);
   border-radius: 10px;
   padding: 12px 14px;
@@ -117,8 +117,8 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  background: #171b30;
-  color: #c6cbe6;
+  background: #0e0c0a;
+  color: #ead9cb;
   display: flex;
   flex-direction: column;
   padding: 24px 16px;
@@ -160,7 +160,7 @@
   display: block;
   font-weight: 500;
   font-size: 11px;
-  color: #8a90b6;
+  color: #c4ad9c;
 }
 
 .admin-nav {
@@ -178,7 +178,7 @@
   gap: 8px;
   padding: 10px 12px;
   border-radius: 10px;
-  color: #c6cbe6;
+  color: #ead9cb;
   text-decoration: none;
   font-size: 14px;
   background: none;
@@ -363,11 +363,11 @@
 
 .admin-tip {
   margin-top: 28px;
-  background: #eef1ff;
-  border: 1px solid #d9defa;
+  background: #ffe9d8;
+  border: 1px solid #fbd7b4;
   border-radius: var(--af-radius);
   padding: 16px 18px;
-  color: #2a3bb0;
+  color: #f97316;
   font-size: 13.5px;
   line-height: 1.55;
 }
@@ -422,7 +422,7 @@
 .af-input:focus {
   outline: none;
   border-color: var(--af-primary);
-  box-shadow: 0 0 0 3px rgba(42, 59, 176, 0.12);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
 }
 
 .af-hint {
@@ -484,7 +484,7 @@
 .af-tabs {
   display: inline-flex;
   gap: 4px;
-  background: #eef0f7;
+  background: #f6ece2;
   border-radius: 10px;
   padding: 3px;
   width: fit-content;
@@ -563,7 +563,7 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--af-muted);
-  background: #fafbfe;
+  background: #fdf8f3;
   padding: 12px 14px;
   border-bottom: 1px solid var(--af-border);
   white-space: nowrap;
@@ -624,7 +624,7 @@
   height: 38px;
   border-radius: 10px;
   object-fit: contain;
-  background: #f4f5fa;
+  background: #faf5ef;
   border: 1px solid var(--af-border);
 }
 
@@ -646,6 +646,22 @@
   padding: 4px;
 }
 
+.af-logo-preview--banner {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  max-height: 170px;
+  object-fit: contain;
+  display: block;
+}
+
+.af-upload {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
 .af-badge {
   display: inline-block;
   font-size: 11.5px;
@@ -654,13 +670,13 @@
   text-transform: uppercase;
   padding: 4px 10px;
   border-radius: 999px;
-  background: #eef1ff;
+  background: #ffe9d8;
   color: var(--af-primary);
 }
 
 .af-badge[data-tone='sky'],
 .af-badge[data-tone='indigo'] {
-  background: #eef1ff;
+  background: #ffe9d8;
   color: var(--af-primary);
 }
 
@@ -676,7 +692,7 @@
   border: 1px solid var(--af-border);
   border-radius: 999px;
   padding: 3px 9px;
-  background: #fafbfe;
+  background: #fdf8f3;
 }
 
 .af-status.is-on {
@@ -708,7 +724,7 @@
 .admin-modal__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(13, 16, 32, 0.55);
+  background: rgba(10, 8, 5, 0.55);
 }
 
 .admin-modal__panel {
@@ -741,7 +757,7 @@
 
 .admin-modal__close {
   border: none;
-  background: #f1f3fb;
+  background: #fbeee2;
   color: var(--af-text);
   width: 32px;
   height: 32px;
@@ -752,7 +768,7 @@
 }
 
 .admin-modal__close:hover {
-  background: #e4e8f8;
+  background: #f6dcc6;
 }
 
 .admin-modal__body {

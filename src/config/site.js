@@ -1,5 +1,5 @@
 /*
-  site.js — configurações globais da marca BLOKKO.
+  site.js — configurações globais da marca BLOOKKO.
 
   MANUTENÇÃO:
   - Toda a identidade (nome, tagline, e-mail, telefone, redes) centralizada aqui;
@@ -10,9 +10,9 @@
     (wa.me/55 + DDD + número).
 */
 
-export const SITE_NAME = 'BLOKKO'
+export const SITE_NAME = 'BLOOKKO'
 export const SITE_TAGLINE = 'Sua Plataforma Condominial'
-export const SITE_EMAIL = 'contato@blokko.com.br'
+export const SITE_EMAIL = 'contato@blookko.com.br'
 export const SITE_PHONE = '(51) 9999-9999'
 
 export const PHONE_URL = 'https://wa.me/555199999999'
@@ -21,19 +21,19 @@ const WhatsAppMsg = (msg) =>
   `https://wa.me/555199999999?text=${encodeURIComponent(msg)}`
 
 export const WA_CHAT = WhatsAppMsg(
-  'Olá! Vim pelo site BLOKKO e gostaria de mais informações.'
+  'Olá! Vim pelo site BLOOKKO e gostaria de mais informações.'
 )
 
 export const WA_COLUNISTA = WhatsAppMsg(
-  'Olá! Quero apresentar uma coluna para a BLOKKO.'
+  'Olá! Quero apresentar uma coluna para a BLOOKKO.'
 )
 
 export const WA_TURMAS = WhatsAppMsg(
-  'Olá! Quero saber mais sobre as turmas de cursos da BLOKKO.'
+  'Olá! Quero saber mais sobre as turmas de cursos da BLOOKKO.'
 )
 
 export const WA_EVENTOS = WhatsAppMsg(
-  'Olá! Quero participar dos eventos da BLOKKO.'
+  'Olá! Quero participar dos eventos da BLOOKKO.'
 )
 
 export const WA_TREINAMENTO = WhatsAppMsg(
@@ -41,7 +41,7 @@ export const WA_TREINAMENTO = WhatsAppMsg(
 )
 
 export const WA_INDICACAO = WhatsAppMsg(
-  'Olá! Quero indicar um parceiro para a BLOKKO.'
+  'Olá! Quero indicar um parceiro para a BLOOKKO.'
 )
 
 export const SOCIAL = {

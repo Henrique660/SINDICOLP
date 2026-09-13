@@ -1,6 +1,6 @@
 {
-  "name": "BLOKKO — Sua Plataforma Condominial",
-  "short_name": "BLOKKO",
+  "name": "BLOOKKO — Sua Plataforma Condominial",
+  "short_name": "BLOOKKO",
   "description": "Cursos, eventos, colunistas e indicações de confiança para síndicos e gestores de condomínios.",
   "lang": "pt-BR",
   "id": "/",
@@ -8,8 +8,8 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#2A3BB0",
-  "theme_color": "#2A3BB0",
+  "background_color": "#0E0C0A",
+  "theme_color": "#F97316",
   "categories": ["business", "education", "lifestyle"],
   "icons": [
     {

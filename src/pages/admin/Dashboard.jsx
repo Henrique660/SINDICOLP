@@ -12,7 +12,7 @@ import { PageHead } from './ui'
 */
 
 export default function Dashboard() {
-  const { cursosEventos, colunistas, indicacoes, reset } = useData()
+  const { cursosEventos, colunistas, indicacoes, anunciantes, reset } = useData()
 
   const cards = [
     {
@@ -35,6 +35,13 @@ export default function Dashboard() {
       value: indicacoes.length,
       sub: 'Parceiros na rede',
       desc: 'Cadastre fornecedores, logotipos, categorias e links externos.'
+    },
+    {
+      to: '/admin/anunciantes',
+      label: 'Anunciantes',
+      value: anunciantes.length,
+      sub: 'Banners no carrossel',
+      desc: 'Gerencie as imagens dos anunciantes e os links ancorados no banner.'
     }
   ]
 
@@ -42,7 +49,7 @@ export default function Dashboard() {
     <>
       <PageHead
         title="Resumo"
-        subtitle="Visão geral do conteúdo publicado na landing page BLOKKO."
+        subtitle="Visão geral do conteúdo publicado na landing page BLOOKKO."
         actions={
           <button
             className="af-btn af-btn--ghost"

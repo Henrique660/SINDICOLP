@@ -1,5 +1,5 @@
 /*
-  App.jsx — rotas da aplicação BLOKKO (landing + CMS).
+  App.jsx — rotas da aplicação BLOOKKO (landing + CMS).
 
   MANUTENÇÃO:
   - LandingLayout: envolve todas as rotas públicas (Header/Footer/WhatsAppFloat)
@@ -26,6 +26,7 @@ import Dashboard from './pages/admin/Dashboard'
 import AdminCursosEventos from './pages/admin/AdminCursosEventos'
 import AdminColunistas from './pages/admin/AdminColunistas'
 import AdminIndicamos from './pages/admin/AdminIndicamos'
+import AdminAnunciantes from './pages/admin/AdminAnunciantes'
 import ProtectedRoute from './pages/admin/ProtectedRoute'
 
 function LandingLayout() {
@@ -111,6 +112,7 @@ export default function App() {
         <Route path="cursos-eventos" element={<AdminCursosEventos />} />
         <Route path="colunistas" element={<AdminColunistas />} />
         <Route path="indicamos" element={<AdminIndicamos />} />
+        <Route path="anunciantes" element={<AdminAnunciantes />} />
       </Route>
       <Route path="*" element={<Home />} />
     </Routes>

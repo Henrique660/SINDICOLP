@@ -1,5 +1,5 @@
 /*
-  sw.js — service worker do BLOKKO.
+  sw.js — service worker do BLOOKKO.
 
   MANUTENÇÃO:
   - Registrado apenas em produção (src/main.jsx, guard import.meta.env.PROD).
@@ -11,7 +11,7 @@
   - O manifest, ícones e o próprio index.html entram no pré-cache do install.
 */
 
-const CACHE = 'blokko-v' + Date.now()
+const CACHE = 'blookko-v' + Date.now()
 const CORE = [
   '/',
   '/index.html',

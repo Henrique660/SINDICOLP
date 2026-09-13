@@ -3,13 +3,13 @@
 
   MANUTENÇÃO:
   - seed(): conteúdo inicial migrado da landing; é carregada apenas no primeiro
-    acesso (chave `blokko:db`). Altere aqui para reconfigurar o conteúdo padrão.
+    acesso (chave `blookko:db`). Altere aqui para reconfigurar o conteúdo padrão.
   - loadDB/saveDB: persistência local. Para a fase backend, esta camada deve
     passar a consumir a API Node/Postgres mantendo o mesmo formato de dados.
   - ids: gerados por uid() (crypto.randomUUID com fallback).
 */
 
-const DB_KEY = 'blokko:db'
+const DB_KEY = 'blookko:db'
 
 export { DB_KEY }
 
@@ -219,6 +219,7 @@ const seed = () => ({
       itens: ['Escrituração condominial', 'Relatórios e balancetes', 'Cobrança e inadimplência'],
       icon: 'building',
       linkExterno: '#',
+      whatsapp: '',
       destaque: true
     },
     {
@@ -230,6 +231,7 @@ const seed = () => ({
       itens: ['Vigilância e portaria', 'CFTV e alarmes', 'Controle de acesso'],
       icon: 'shield',
       linkExterno: '#',
+      whatsapp: '',
       destaque: false
     },
     {
@@ -241,6 +243,7 @@ const seed = () => ({
       itens: ['Manutenção preventiva', 'Reformas e impermeabilização', 'Adequação de áreas comuns'],
       icon: 'wrench',
       linkExterno: '#',
+      whatsapp: '',
       destaque: false
     },
     {
@@ -252,6 +255,7 @@ const seed = () => ({
       itens: ['Consultoria e pareceres', 'Cobrança de inadimplentes', 'Contencioso condominial'],
       icon: 'law',
       linkExterno: '#',
+      whatsapp: '',
       destaque: false
     },
     {
@@ -263,6 +267,7 @@ const seed = () => ({
       itens: ['Gestão financeira e de documentos', 'Assembleias online e votação', 'Nulla de obras e reservas'],
       icon: 'monitor',
       linkExterno: '#',
+      whatsapp: '',
       destaque: false
     },
     {
@@ -272,9 +277,149 @@ const seed = () => ({
       categoria: 'Seguros e proteção',
       descricao: 'Seguros condominiais, de vida e responsabilidade civil, com corretagem especializada.',
       itens: ['Seguro incêndio e RC', 'Seguro de vida para síndicos', 'Assistência condominial'],
+icon: 'umbrella',
+      linkExterno: '#',
+      whatsapp: '',
+      destaque: false
+    },
+    {
+      id: 'seed-ind-7',
+      nome: 'Limpeza e conservação predial',
+      logo: '',
+      categoria: 'Limpeza e conservação',
+      descricao: 'Serviços de limpeza, zeladoria, portaria e controle de pragas para as áreas comuns do condomínio.',
+      itens: ['Limpeza de áreas comuns', 'Controle de pragas', 'Zeladoria e portaria'],
+      icon: 'wrench',
+      linkExterno: '#',
+      whatsapp: '',
+      destaque: false
+    },
+    {
+      id: 'seed-ind-8',
+      nome: 'Consultoria condominial',
+      logo: '',
+      categoria: 'Administração e contabilidade',
+      descricao: 'Consultoria de gestão e assessoria próxima ao síndico para melhorar rotinas, contas e assembleias.',
+      itens: ['Assessoria a síndicos', 'Diagnóstico da gestão', 'Apoio a assembleias'],
+      icon: 'building',
+      linkExterno: '#',
+      whatsapp: '',
+      destaque: false
+    },
+    {
+      id: 'seed-ind-9',
+      nome: 'Monitoramento 24h',
+      logo: '',
+      categoria: 'Segurança patrimonial',
+      descricao: 'CFTV, alarmes, cercas e automação de portaria para uma vigilância contínua do condomínio.',
+      itens: ['CFTV e monitoramento', 'Alarmes e sensores', 'Automação de portaria'],
+      icon: 'shield',
+      linkExterno: '#',
+      whatsapp: '',
+      destaque: false
+    },
+    {
+      id: 'seed-ind-10',
+      nome: 'Elétrica e hidráulica',
+      logo: '',
+      categoria: 'Reformas e manutenção',
+      descricao: 'Manutenção de instalações elétricas, hidrossanitárias e infraestrutura de bombas e cisternas.',
+      itens: ['Instalações elétricas', 'Hidráulica e vazamentos', 'Quadros, SPDA e geradores'],
+      icon: 'wrench',
+      linkExterno: '#',
+      whatsapp: '',
+      destaque: false
+    },
+    {
+      id: 'seed-ind-11',
+      nome: 'Faturamento e cobrança digital',
+      logo: '',
+      categoria: 'Soluções digitais',
+      descricao: 'Emissão de boletos e Pix, conciliação bancária e gestão de inadimplência em um só lugar.',
+      itens: ['Boletos e Pix', 'Conciliação bancária', 'Gestão de inadimplência'],
+      icon: 'monitor',
+      linkExterno: '#',
+      whatsapp: '',
+      destaque: false
+    },
+    {
+      id: 'seed-ind-12',
+      nome: 'Planos de saúde e benefícios',
+      logo: '',
+      categoria: 'Seguros e proteção',
+      descricao: 'Planos de saúde, assistência odontológica e benefícios para síndicos, funcionários e condôminos.',
+      itens: ['Planos de saúde', 'Benefícios corporativos', 'Assistência odontológica'],
       icon: 'umbrella',
       linkExterno: '#',
+      whatsapp: '',
       destaque: false
+    },
+    {
+      id: 'seed-ind-13',
+      nome: 'Recuperação de crédito',
+      logo: '',
+      categoria: 'Jurídico condominial',
+      descricao: 'Mediação e negociação de dívidas condominiais, com acordos e parcelamentos que preservam a convivência.',
+      itens: ['Negociação extrajudicial', 'Renegociação de débitos', 'Acordos e parcelas'],
+      icon: 'law',
+      linkExterno: '#',
+      whatsapp: '',
+      destaque: false
+    },
+    {
+      id: 'seed-ind-14',
+      nome: 'Energia solar e eficiência',
+      logo: '',
+      categoria: 'Eficiência e sustentabilidade',
+      descricao: 'Projetos fotovoltaicos e práticas de eficiência que reduzem contas e alinham o condomínio à agenda verde.',
+      itens: ['Projetos fotovoltaicos', 'Eficiência energética', 'Água e resíduos'],
+      icon: 'monitor',
+      linkExterno: '#',
+      whatsapp: '',
+      destaque: false
+    },
+    {
+      id: 'seed-ind-15',
+      nome: 'Paisagismo e áreas verdes',
+      logo: '',
+      categoria: 'Reformas e manutenção',
+      descricao: 'Jardinagem, projetos de paisagismo e coberturas verdes que valorizam as áreas comuns.',
+      itens: ['Jardinagem e podas', 'Projetos de paisagismo', 'Coberturas verdes'],
+      icon: 'wrench',
+      linkExterno: '#',
+      whatsapp: '',
+      destaque: false
+    }
+  ],
+
+  anunciantes: [
+    {
+      id: 'seed-anu-1',
+      nome: 'Admin Conecta',
+      imagem: 'https://placehold.co/480x160/F97316/ffffff?text=Admin+Conecta',
+      linkExterno: 'https://exemplo.com.br/admin-conecta',
+      ativo: true
+    },
+    {
+      id: 'seed-anu-2',
+      nome: 'Segurança Total',
+      imagem: 'https://placehold.co/480x160/0E0C0A/F97316?text=Seguranca%2BTotal',
+      linkExterno: 'https://exemplo.com.br/seguranca-total',
+      ativo: true
+    },
+    {
+      id: 'seed-anu-3',
+      nome: 'Reformas & Cia',
+      imagem: 'https://placehold.co/480x160/F1E4D8/0E0C0A?text=Reformas%2B%26%2BCia',
+      linkExterno: 'https://exemplo.com.br/reformas-cia',
+      ativo: true
+    },
+    {
+      id: 'seed-anu-4',
+      nome: 'Jurídico Condominial',
+      imagem: 'https://placehold.co/480x160/F97316/ffffff?text=Juridico%2BCondominial',
+      linkExterno: 'https://exemplo.com.br/juridico',
+      ativo: false
     }
   ]
 })
@@ -284,7 +429,15 @@ export function loadDB() {
     const raw = localStorage.getItem(DB_KEY)
     if (raw) {
       const parsed = JSON.parse(raw)
-      if (parsed && parsed.cursosEventos && parsed.colunistas && parsed.indicacoes) return parsed
+      if (parsed && parsed.cursosEventos && parsed.colunistas && parsed.indicacoes) {
+        if (!parsed.anunciantes) parsed.anunciantes = seed().anunciantes
+        // Injeta serviços-exemplo novos (por id) sem apagar as edições locais.
+        const seedInds = seed().indicacoes
+        const have = new Set((parsed.indicacoes || []).map((i) => i.id))
+        const missing = seedInds.filter((i) => !have.has(i.id))
+        if (missing.length) parsed.indicacoes = [...parsed.indicacoes, ...missing]
+        return parsed
+      }
     }
   } catch (e) {
     /* dados corrompidos — recria seed */

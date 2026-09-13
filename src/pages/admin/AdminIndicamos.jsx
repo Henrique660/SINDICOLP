@@ -9,7 +9,7 @@ import { truncate } from './format'
 
   MANUTENÇÃO:
   - Campos: nome, logo (URL + preview), categoria, descrição, itens (1 por linha),
-    ícone, link externo e destaque.
+    ícone, link externo, whatsapp (opcional) e destaque.
   - Categorias e ícones disponíveis em src/config/admin.js e src/config/iconMap.js.
   - `normalizeItens` converte o textarea (linhas) no array persistido.
 */
@@ -23,6 +23,7 @@ const blank = () => ({
   itens: '',
   icon: 'building',
   linkExterno: '',
+  whatsapp: '',
   destaque: false
 })
 
@@ -64,6 +65,10 @@ export default function AdminIndicamos() {
     if (editing.logo && !/^https?:\/\//.test(editing.logo)) {
       errs.logo = 'A logo deve ser uma URL de imagem (http/https).'
     }
+    const phoneDigits = editing.whatsapp ? String(editing.whatsapp).replace(/\D/g, '') : ''
+    if (editing.whatsapp && !/^[0-9]{8,15}$/.test(phoneDigits)) {
+      errs.whatsapp = 'Use apenas números (com DDI/DDD) ou um link wa.me.'
+    }
     setErrors(errs)
     return Object.keys(errs).length === 0
   }
@@ -74,6 +79,7 @@ export default function AdminIndicamos() {
     const payload = {
       ...editing,
       itens: normalizeItens(editing.itens),
+      whatsapp: editing.whatsapp ? String(editing.whatsapp).replace(/\D/g, '') : '',
       id: editing.id || uid()
     }
     upsert('indicacoes', payload)
@@ -195,6 +201,11 @@ export default function AdminIndicamos() {
             <Field label="Link externo (afiliado/site do parceiro)" required>
               <Input type="url" value={editing.linkExterno} onChange={set('linkExterno')} placeholder="https://... ou #" />
               {errors.linkExterno && <small className="af-error">{errors.linkExterno}</small>}
+            </Field>
+
+            <Field label="WhatsApp do parceiro (opcional)" hint="Sem número, o botão “Contatar” cai no WhatsApp da BLOOKKO">
+              <Input value={editing.whatsapp} onChange={set('whatsapp')} placeholder="Ex.: 5511999999999 ou wa.me/5511999999999" />
+              {errors.whatsapp && <small className="af-error">{errors.whatsapp}</small>}
             </Field>
 
             <div className="af-toggles">

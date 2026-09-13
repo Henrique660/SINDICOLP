@@ -2,11 +2,12 @@ import PageHero from '../components/PageHero'
 import CTABand from '../components/CTABand'
 import SectionHead from '../components/SectionHead'
 import {
-  IconBuilding, IconCheck, IconLayers
+  IconBuilding, IconCheck, IconLayers, IconWhatsApp
 } from '../components/Icons'
 import { SITE_NAME, WA_INDICACAO } from '../config/site'
 import { useData } from '../context/DataContext'
 import { INDICACAO_ICON_MAP } from '../config/iconMap'
+import { waServiceContact } from '../services/waContact'
 
 /*
   NosIndicamos.jsx — página da rede de parceiros e recomendações.
@@ -42,7 +43,7 @@ export default function NosIndicamos() {
         breadcrumb="Nós Indicamos"
         eyebrow="Rede de parceiros de confiança"
         title="Nós Indicamos"
-        description="Profissionais e empresas selecionadas para apoiar síndicos e administradoras no dia a dia — com critério, atualização e experiência no mercado brasileiro."
+        description=""
       />
 
       <section className="section" data-od-id="categorias">
@@ -74,6 +75,18 @@ export default function NosIndicamos() {
                       ))}
                     </ul>
                   )}
+                  <div className="recommend__actions">
+                    <a
+                      className="btn btn--primary btn--sm"
+                      href={waServiceContact(r)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Contatar ${r.nome} no WhatsApp`}
+                    >
+                      <IconWhatsApp size={14} />
+                      Contatar
+                    </a>
+                  </div>
                 </div>
               )
             })}

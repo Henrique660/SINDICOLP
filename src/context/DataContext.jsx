@@ -5,7 +5,7 @@ import { DB_KEY, loadDB, saveDB, uid } from '../services/store'
   DataContext.jsx — fonte única de dados do CMS (landing + admin).
 
   MANUTENÇÃO:
-  - Expoe as coleções: cursosEventos, colunistas, indicacoes.
+  - Expoe as coleções: cursosEventos, colunistas, indicacoes, anunciantes.
   - upsert(coleção, item): cria ou atualiza; remove(coleção, id): exclui.
   - Persistência atual: localStorage (store.js). Quando o backend Node/Postgres
     entrar, troque `commit` por chamadas REST sem alterar as páginas que usam
@@ -61,6 +61,7 @@ export function DataProvider({ children }) {
         cursosEventos: db.cursosEventos || [],
         colunistas: db.colunistas || [],
         indicacoes: db.indicacoes || [],
+        anunciantes: db.anunciantes || [],
         upsert,
         remove,
         reset,

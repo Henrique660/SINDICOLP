@@ -16,7 +16,7 @@ export default function WhatsAppFloat() {
       href={WA_CHAT}
       target="_blank"
       rel="noopener"
-      aria-label="Falar com a BLOKKO no WhatsApp"
+      aria-label="Falar com a BLOOKKO no WhatsApp"
     >
       <IconWhatsApp size={26} />
     </a>
