@@ -29,12 +29,21 @@ export default function Header() {
   const [open, setOpen] = useState(false)
   const [deferredPrompt, setDeferredPrompt] = useState(null)
   const [showIosTip, setShowIosTip] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const tipRef = useRef(null)
   const { pathname } = useLocation()
 
   useEffect(() => {
     setOpen(false)
   }, [pathname])
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const update = () => setIsMobile(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
 
   useEffect(() => {
     const onBeforeInstall = (e) => {
@@ -98,7 +107,7 @@ export default function Header() {
           </ul>
         </nav>
         <div className="nav-cta">
-          {(deferredPrompt || showIosTip) && (
+          {(isMobile && (deferredPrompt || showIosTip)) && (
             <div className="nav-install-wrap" ref={tipRef}>
               <button
                 type="button"
