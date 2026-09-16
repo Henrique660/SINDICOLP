@@ -202,6 +202,18 @@ body.nav-locked {
 
 /* ---------- Ajustes finos do PWA ---------- */
 
+/* Busca/categoria: altura confortável para toque e fonte legível
+   (16px também evita zoom automático do iOS ao focar). */
+.mp .mp__search {
+  min-height: 48px;
+  padding-block: 8px;
+}
+
+.mp .mp__search input,
+.mp .mp__field select {
+  font-size: 16px;
+}
+
 /* Hero: altura controlada para não dominar a tela */
 .ad-carousel__link {
   height: clamp(200px, 38vh, 420px);

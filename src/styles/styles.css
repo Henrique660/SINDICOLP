@@ -988,12 +988,15 @@ a.btn, button.btn { text-decoration: none; }
 .mp__search input {
   flex: 1;
   min-width: 0;
+  padding: 0;
   border: none;
   outline: none;
   background: transparent;
   font: inherit;
   font-size: 13.5px;
   color: var(--fg);
+  appearance: none;
+  -webkit-appearance: none;
 }
 .mp__field { display: grid; gap: 6px; }
 .mp__field-label {
@@ -1124,7 +1127,19 @@ a.btn, button.btn { text-decoration: none; }
   .mp .recommend__actions .btn { font-size: 10.5px; padding: 6px 8px; }
 }
 @media (max-width: 760px) {
-  .mp__toolbar { flex-direction: column; align-items: stretch; }
+  .mp__toolbar { flex-direction: column; align-items: stretch; gap: 10px; }
+  /* Em coluna, o `flex: 1 1 280px` do .mp__search viraria ALTURA (input
+     gigante). Resetamos para basis auto + largura total. */
+  .mp__search {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+  }
+  /* 16px evita o zoom automático do iOS ao focar o campo */
+  .mp__search input,
+  .mp__field select {
+    font-size: 16px;
+  }
 }
 
 /* ---------- page hero (inner pages) ---------- */
@@ -1471,10 +1486,6 @@ a.btn, button.btn { text-decoration: none; }
     width: min(260px, calc(100vw - 32px));
   }
   .install-tip::before { right: auto; left: 50%; transform: translateX(-50%) rotate(45deg); }
-
-  /* marketplace toolbar empilha verticalmente */
-  .mp__toolbar { gap: 10px; }
-  .mp__search { min-width: 0; }
 }
 
 /* Small phones (≤400px) */
