@@ -31,7 +31,11 @@
 
 /* ---------- reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -41,6 +45,11 @@ body {
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* PWA standalone — evita conteúdo debaixo da barra do SO */
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  /* bottom padding aplicado apenas no standalone (via media query) */
 }
 img, svg { display: block; max-width: 100%; }
 a { color: var(--accent); }
@@ -927,9 +936,15 @@ a.btn, button.btn { text-decoration: none; }
   --mp-gap: 18px;
   display: grid;
   grid-template-columns: clamp(150px, 12vw, 220px) minmax(0, 1fr) clamp(150px, 12vw, 220px);
+  grid-template-areas: "left main right";
   gap: clamp(18px, 2.6vw, 30px);
   align-items: stretch;
 }
+.mp__rails { display: contents; }
+.mp__rail { grid-area: auto; }
+.mp__rail--left { grid-area: left; }
+.mp__rail--right { grid-area: right; }
+.ads-layout__main { grid-area: main; min-width: 0; }
 .mp__rail {
   position: sticky;
   top: 84px;
@@ -1062,24 +1077,47 @@ a.btn, button.btn { text-decoration: none; }
   font-size: 14px;
 }
 @media (max-width: 1080px) {
-  /* Sem espaço útil para as 2 laterais + 5 colunas: os banners viram blocos
-     full-width (acima/abaixo da vitrine, carrossel horizontal) e o grid cai
-     para 4 colunas. */
-  .mp__layout { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  .mp__rail { position: static; order: 2; height: auto; }
-  .mp__rail--left { order: 0; }
-  .mp__rail--right { order: 4; }
-  .mp__rail .ad-carousel--rail .ad-carousel__viewport { height: clamp(240px, 44vw, 340px); }
+  /* Sem espaço para as 2 laterais + conteúdo: os banners ficam empilhados
+     em uma única coluna lateral (sticky à direita) enquanto o conteúdo
+     rola. A vitrine cai para 4 colunas. */
+  .mp__layout {
+    grid-template-columns: minmax(0, 1fr) clamp(112px, 15vw, 148px);
+    grid-template-areas: "main rails";
+    gap: clamp(12px, 2vw, 20px);
+    align-items: start;
+  }
+  .ads-layout__main { grid-area: main; min-width: 0; }
+  .mp__rails {
+    grid-area: rails;
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    height: auto;
+    position: sticky;
+    top: 84px;
+    max-height: calc(100vh - 118px);
+    max-height: calc(100dvh - 118px);
+  }
+  .mp__rail--left, .mp__rail--right { grid-area: auto; }
+  .mp__rail { position: static; height: auto; }
+  .mp__rail .ad-carousel--rail .ad-carousel__viewport { height: clamp(168px, 30vh, 280px); }
   .rec-grid--marketplace { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (max-width: 880px) {
   .rec-grid--marketplace { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
+  /* Mobile/PWA: vitrine 2x2 sempre, banners continuam na lateral */
   .rec-grid--marketplace { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 440px) {
-  .rec-grid--marketplace { grid-template-columns: 1fr; }
+  .mp__layout { grid-template-columns: minmax(0, 1fr) 92px; gap: 10px; }
+  .mp__rail .ad-carousel--rail .ad-carousel__viewport { height: clamp(150px, 28vh, 230px); }
+  .mp .recommend { padding: 10px; }
+  .mp .recommend h3 { font-size: 12.5px; }
+  .mp .recommend p { font-size: 11px; }
+  .mp .recommend__icon { width: 30px; height: 30px; }
+  .mp .recommend__actions .btn { font-size: 10.5px; padding: 6px 8px; }
 }
 @media (max-width: 760px) {
   .mp__toolbar { flex-direction: column; align-items: stretch; }
@@ -1344,6 +1382,8 @@ a.btn, button.btn { text-decoration: none; }
 [data-reveal].is-in { opacity: 1; transform: none; }
 
 /* ---------- responsive ---------- */
+
+/* Tablet (≤980px) */
 @media (max-width: 980px) {
   .quick__row, .feature-grid, .news-grid, .course-grid, .rec-grid, .about-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-main { grid-template-columns: 1fr 1fr; }
@@ -1372,14 +1412,25 @@ a.btn, button.btn { text-decoration: none; }
   .nav-list a::after { display: none; }
   .nav-list a[aria-current="page"] { background: oklch(0.94 0.04 65); color: var(--fg); }
 }
+
+/* Mobile (≤760px) */
 @media (max-width: 760px) {
-  .topbar__in { justify-content: center; flex-direction: column; align-items: center; gap: 7px; text-align: center; }
+  .topbar__in {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    text-align: center;
+    padding-block: 7px;
+  }
+  .topbar__social { display: none; }
+
   .hero h1 { max-width: 13ch; }
   .hero__actions, .cta-band__actions { width: 100%; }
   .hero__actions .btn, .cta-band__actions .btn { width: 100%; max-width: 340px; }
   .hero__kicker { gap: 6px 18px; }
   .hero__kicker span + span::before { content: none; margin: 0; }
-  .quick { margin-top: 0; }
+  .quick { margin-top: -24px; }
   .quick__row, .feature-grid, .news-grid, .course-grid, .rec-grid, .about-grid { grid-template-columns: 1fr; }
   .event-card__side { display: flex; flex-direction: column; align-items: flex-start; }
   .post-row { grid-template-columns: 1fr; }
@@ -1395,9 +1446,67 @@ a.btn, button.btn { text-decoration: none; }
   .ad-carousel__btn[data-dir="next"] { right: 8px; }
   .ad-carousel__label { top: 10px; left: 10px; padding: 6px 10px; font-size: 10px; }
   .ad-carousel__controls { bottom: 10px; gap: 10px; padding: 6px 10px; }
-  .footer-main { grid-template-columns: 1fr; }
+  .footer-main { grid-template-columns: 1fr; gap: 28px; }
   .footer-card__in { flex-direction: column; align-items: flex-start; }
   .footer-bottom { justify-content: center; text-align: center; }
+
+  /* WhatsApp float — menor e mais afastado para não cobrir conteúdo */
+  .wa-float {
+    width: 48px;
+    height: 48px;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+  }
+  .wa-float svg { width: 22px; height: 22px; }
+
+  /* Install tip — não vaza da tela */
+  .install-tip {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(260px, calc(100vw - 32px));
+  }
+  .install-tip::before { right: auto; left: 50%; transform: translateX(-50%) rotate(45deg); }
+
+  /* marketplace toolbar empilha verticalmente */
+  .mp__toolbar { gap: 10px; }
+  .mp__search { min-width: 0; }
+}
+
+/* Small phones (≤400px) */
+@media (max-width: 400px) {
+  .hero h1 { font-size: 26px; max-width: 12ch; }
+  .hero__lead { font-size: 15px; }
+  .hero__actions .btn, .cta-band__actions .btn { font-size: 11.5px; padding: 12px 18px; }
+  .brand__name { font-size: 15px; }
+  .brand__name small { font-size: 9.5px; }
+  .brand__mark { width: 36px; height: 36px; }
+  .brand__mark span { font-size: 15px; }
+  .sec-head h2 { font-size: 22px; }
+  .cta-band h2 { font-size: 20px; }
+  .footer-card__in { padding: 18px 16px; }
+  .footer-card__in h2 { font-size: 16px; }
+  .qcard { padding: 18px 16px; }
+  .qcard h3 { font-size: 14px; }
+  .article__cover { height: 120px; }
+  .article__cover .mono { font-size: 34px; }
+  .article__body { padding: 16px; }
+}
+
+/* PWA standalone — compensa a barra do SO */
+@media (display-mode: standalone) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .site-header {
+    top: env(safe-area-inset-top);
+  }
+}
+
+/* Touch devices — smooth scroll e sem hover socado */
+@media (hover: none) and (pointer: coarse) {
+  html { -webkit-overflow-scrolling: touch; }
+  .qcard:hover, .article:hover, .recommend:hover { transform: none; box-shadow: var(--shadow); }
 }
 
 @media (prefers-reduced-motion: reduce) {

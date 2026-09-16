@@ -9,29 +9,53 @@ import { waServiceContact } from '../services/waContact'
   filtro por categoria e scroll infinito (cresce na própria página).
 
   MANUTENÇÃO:
-  - A vitrine mantém 5 colunas (COLS). Sem caixa de scroll interna: o grid
-    cresce naturalmente para baixo e a página rola — isso evita as alturas
-    fixas gigantes que espremiam a tela em alguns viewports.
+  - A vitrine usa grid responsivo (5 colunas desktop → 4 → 3 → 2 no mobile).
+    Sem caixa de scroll interna: o grid cresce naturalmente para baixo e a
+    página rola — isso evita as alturas fixas gigantes que espremiam a tela.
+  - O scroll infinito carrega em lotes de 2 linhas: no mobile (2 colunas)
+    cada lote equivale a um bloco "2x2" (4 serviços); no desktop, 10 (5x2).
+    O lote é recalculado via `useCols()` conforme a largura da viewport.
   - O scroll infinito usa um `sentinel` no fim do grid observado por
     IntersectionObserver: quando ele entra na viewport (com folga de
-    `rootMargin`), `loadMore()` carrega o próximo lote. PAGE_SIZE = 2 linhas.
+    `rootMargin`), `loadMore()` carrega o próximo lote.
   - Filtros combinados: a busca respeita a categoria ativa e vice-versa.
-  - Toda mudança de consulta/categoria reinicia `visibleCount` e invalida
-    cargas pendentes via `generationRef`.
+  - Toda mudança de consulta/categoria/largura reinicia `visibleCount` e
+    invalida cargas pendentes via `generationRef`.
   - Os banners laterais (`.mp__rail`) reaproveitam o AdCarousel com
     `variant="rail"` — no grid `AdsLayout` usado na Home e nas demais
     páginas públicas.
 */
 
-const COLS = 5
-const PAGE_SIZE = COLS * 2
-const INITIAL_COUNT = COLS * 4
+function useCols() {
+  const mqs = [
+    { q: '(max-width: 640px)', c: 2 },
+    { q: '(max-width: 880px)', c: 3 },
+    { q: '(max-width: 1080px)', c: 4 }
+  ]
+  const [cols, setCols] = useState(() => {
+    const hit = mqs.find((m) => window.matchMedia(m.q).matches)
+    return hit ? hit.c : 5
+  })
+  useEffect(() => {
+    const update = () => {
+      const hit = mqs.find((m) => window.matchMedia(m.q).matches)
+      setCols(hit ? hit.c : 5)
+    }
+    update()
+    const mqls = mqs.map((m) => window.matchMedia(m.q))
+    mqls.forEach((m) => m.addEventListener('change', update))
+    return () => mqls.forEach((m) => m.removeEventListener('change', update))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  return cols
+}
 
 export default function ServicesMarketplace() {
+  const cols = useCols()
   const { indicacoes } = useData()
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('')
-  const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT)
+  const [visibleCount, setVisibleCount] = useState(cols * 4)
   const [loading, setLoading] = useState(false)
   const sentinelRef = useRef(null)
   const generationRef = useRef(0)
@@ -67,12 +91,12 @@ export default function ServicesMarketplace() {
   const visible = filtered.slice(0, visibleCount)
   const hasMore = visibleCount < filtered.length
 
-  // Reinicia o carregamento sempre que a busca ou a categoria mudam.
+  // Reinicia o carregamento sempre que a busca, a categoria ou a largura mudam.
   useEffect(() => {
     generationRef.current += 1
-    setVisibleCount(INITIAL_COUNT)
+    setVisibleCount(cols * 4)
     setLoading(false)
-  }, [query, category])
+  }, [query, category, cols])
 
   function loadMore() {
     if (loading || !hasMore) return
@@ -82,7 +106,7 @@ export default function ServicesMarketplace() {
     // respostas atrasadas quando o usuário já mudou o filtro.
     setTimeout(() => {
       if (generation !== generationRef.current) return
-      setVisibleCount((c) => Math.min(c + PAGE_SIZE, filtered.length))
+      setVisibleCount((c) => Math.min(c + cols * 2, filtered.length))
       setLoading(false)
     }, 450)
   }
@@ -101,7 +125,7 @@ export default function ServicesMarketplace() {
     io.observe(el)
     return () => io.disconnect()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visibleCount, loading, hasMore, query, category])
+  }, [visibleCount, loading, hasMore, query, category, cols])
 
   return (
     <div className="mp">
