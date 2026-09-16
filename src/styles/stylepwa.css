@@ -143,8 +143,11 @@ body.nav-locked {
 
 /* Centro: vitrine estritamente 2x2 (duas colunas, duas linhas por lote).
    Cada lote do scroll infinito traz 4 itens (2x2) — casado no JS
-   (useCols retorna 2 em standalone). */
-.rec-grid--marketplace {
+   (useCols retorna 2 em standalone).
+   ATENÇÃO: especificidade precisa ser >= a base `.mp .rec-grid--marketplace`
+   (0,2,0) para vencer o repeat(5) do web — com a mesma força de seletor,
+   a ordem de fonte decide e esta folha (carregada depois) tem a palavra final. */
+.mp .rec-grid--marketplace {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-auto-rows: auto;
 }
@@ -192,7 +195,7 @@ body.nav-locked {
     height: auto;
   }
 
-  .rec-grid--marketplace {
+  .mp .rec-grid--marketplace {
     gap: 10px;
   }
 }
