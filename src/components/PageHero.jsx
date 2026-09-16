@@ -6,7 +6,7 @@ import { IconChevronRight } from './Icons'
 
   MANUTENÇÃO:
   - Props: breadcrumb (último item da trilha), eyebrow, title, description.
-  - Usado pelas páginas: Colunistas, CursosEventos, NosIndicamos.
+  - Usado pelas páginas: Colunistas, CursosEventos.
   - Estilo: classes `.page-hero` em src/styles/styles.css.
 */
 

@@ -1,9 +1,7 @@
-import { Link } from 'react-router-dom'
 import SectionHead from '../components/SectionHead'
-import EventCard from '../components/EventCard'
 import AdCarousel from '../components/AdCarousel'
 import ServicesMarketplace from '../components/ServicesMarketplace'
-import { IconArrowRight, IconBuilding, IconLayers, IconMail, IconPin, IconWhatsApp } from '../components/Icons'
+import { IconBuilding, IconLayers, IconMail, IconPin, IconWhatsApp } from '../components/Icons'
 import { SITE_NAME, SITE_TAGLINE, SITE_EMAIL, SITE_PHONE, PHONE_URL, WA_CHAT } from '../config/site'
 
 /*
@@ -11,10 +9,15 @@ import { SITE_NAME, SITE_TAGLINE, SITE_EMAIL, SITE_PHONE, PHONE_URL, WA_CHAT } f
 
   MANUTENÇÃO:
   - Ordem dos blocos (de cima para baixo):
-      1. Anunciantes            (AdCarousel — banners do CMS, AdminAnunciantes)
-      2. Marketplace de serviços (indicacoes do CMS, AdminIndicamos)
-      3. Cursos e eventos        (EventCard em destaque + link p/ /cursos-eventos)
-      4. Informações da empresa  (bloco institucional + rodapé)
+      1. Anunciantes            (AdCarousel hero — banners do CMS, AdminAnunciantes)
+      2. Vitrine de serviços    (5 colunas + scroll infinito em ServicesMarketplace,
+                                 com 2 banners verticais laterais reutilizando o
+                                 AdCarousel via variant="rail" em .mp__rail)
+      3. Informações da empresa  (bloco institucional + rodapé)
+  - Cursos e eventos NÃO ficam na Home: a agenda e o catálogo vivem apenas em
+    /cursos-eventos (CursosEventos.jsx).
+  - Espaços publicitários: 1 banner em cada lateral (esquerda/direita) ao redor
+    da vitrine. Somem/empilham no mobile via media queries em styles.css.
   - Textos institucionais do bloco final: editados abaixo em `company`.
 */
 
@@ -28,42 +31,22 @@ export default function Home() {
     <>
       <AdCarousel />
 
-      <section className="section section--surface" data-od-id="nos-indicamos">
+      <section className="section section--surface section--marketplace" data-od-id="nos-indicamos">
         <div className="container">
-          <SectionHead eyebrow="Nós indicamos" title="Marketplace de serviços para a gestão condominial">
-            Profissionais e empresas selecionadas pela equipe do {SITE_NAME} para apoiar síndicos e administradoras no dia a dia — com critério, atualização e experiência no mercado brasileiro.
-          </SectionHead>
-
-          <ServicesMarketplace />
+          <SectionHead eyebrow="Nós indicamos" title="Marketplace de serviços para a gestão condominial" />
         </div>
-      </section>
 
-      <section className="section" data-od-id="cursos-eventos">
-        <div className="container">
-          <SectionHead eyebrow="Cursos e eventos" title="Próximo congresso da agenda">
-            Formação contínua e encontros que conectam síndicos, administradoras e especialistas do mercado condominial no Brasil — confira o evento em destaque e explore a agenda completa.
-          </SectionHead>
+        <div className="container container--wide">
+          <div className="mp__layout">
+            <aside className="mp__rail mp__rail--left" aria-label="Publicidade">
+              <AdCarousel variant="rail" />
+            </aside>
 
-          <EventCard
-            meta={['Congresso Nacional', 'Organização parceira']}
-            title="CONASI CONFIANÇA — Congresso Nacional de Administradoras e Síndicos"
-            description="No dia 28 de março de 2026, São Paulo recebe o evento que reúne especialistas, palestras estratégicas e networking para administradores, síndicos e profissionais do setor que buscam atualização, inovação e crescimento profissional."
-            details={[
-              { icon: 'date', label: 'Data', value: '28 de março de 2026' },
-              { icon: 'time', label: 'Horário', value: 'das 9h às 18h' },
-              { icon: 'local', label: 'Local', value: 'Hotel Central Plaza — São Paulo/SP' }
-            ]}
-            chip={{ day: '28', month: 'Mar · 2026' }}
-            chipExtra="9h às 18h"
-            ctaLabel="Inscrições abertas"
-            ctaHref="#"
-            ctaNote="Via Blookko · Vagas limitadas"
-          />
+            <ServicesMarketplace />
 
-          <div style={{ marginTop: 'clamp(28px,4vw,40px)' }} data-reveal>
-            <Link className="btn btn--primary" to="/cursos-eventos">
-              Ver todos os cursos e eventos <IconArrowRight size={15} />
-            </Link>
+            <aside className="mp__rail mp__rail--right" aria-label="Publicidade">
+              <AdCarousel variant="rail" />
+            </aside>
           </div>
         </div>
       </section>

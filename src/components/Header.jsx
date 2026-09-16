@@ -21,8 +21,7 @@ import { SITE_NAME, SITE_TAGLINE, PHONE_URL } from '../config/site'
 const links = [
   { to: '/', label: 'Início', end: true },
   { to: '/cursos-eventos', label: 'Curso e Eventos' },
-  { to: '/colunistas', label: 'Colunistas' },
-  { to: '/nos-indicamos', label: 'Nós indicamos' }
+  { to: '/colunistas', label: 'Colunistas' }
 ]
 
 export default function Header() {

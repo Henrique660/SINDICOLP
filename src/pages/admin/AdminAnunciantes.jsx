@@ -8,16 +8,21 @@ import { EmptyState, Field, Input, Modal, PageHead, StatusDot, Toggle } from './
 
   MANUTENÇÃO:
   - Campos: nome, imagem (URL OU upload do dispositivo), link externo
-    (afiliado/site do anunciante, ancorado no clique do banner) e status ativo.
+    (afiliado/site do anunciante, ancorado no clique do banner), posicao
+    ("hero" para o topo / "rail" para as laterais da vitrine) e status ativo.
   - Upload: converte o arquivo para data URL (redimensionado/comprimido) e
     persiste no localStorage — ver src/services/uploadImage.js.
-  - Anunciantes com `ativo` desligado ficam fora do carrossel da Home.
+  - Anunciantes com `ativo` desligado ficam fora dos carrosséis da Home.
+  - `posicao`: controla em qual carrossel o banner aparece. A Home usa o
+    AdCarousel com `variant="hero"` (topo) e `variant="rail"` (laterais).
+    Anunciantes sem o campo (legado) são tratados como "hero".
 */
 const blank = () => ({
   id: '',
   nome: '',
   imagem: '',
   linkExterno: '',
+  posicao: 'hero',
   ativo: true
 })
 
@@ -117,6 +122,7 @@ export default function AdminAnunciantes() {
               <tr>
                 <th>Banner</th>
                 <th>Anunciante</th>
+                <th>Posição</th>
                 <th>Link externo</th>
                 <th>Status</th>
                 <th>Ações</th>
@@ -133,6 +139,7 @@ export default function AdminAnunciantes() {
                     )}
                   </td>
                   <td className="af-table__title">{item.nome}</td>
+                  <td className="af-table__text">{item.posicao === 'rail' ? 'Laterais (rail)' : 'Topo (hero)'}</td>
                   <td className="af-table__text">
                     <a href={item.linkExterno} target="_blank" rel="noopener noreferrer">
                       {item.linkExterno}
@@ -202,6 +209,18 @@ export default function AdminAnunciantes() {
             <Field label="Link externo (afiliado/site do anunciante)" hint="Ao clicar no banner, o usuário é levado a este link" required>
               <Input type="url" value={editing.linkExterno} onChange={set('linkExterno')} placeholder="https://... ou #" />
               {errors.linkExterno && <small className="af-error">{errors.linkExterno}</small>}
+            </Field>
+
+            <Field label="Posição do banner" hint="Onde este banner deve aparecer na página inicial">
+              <select
+                className="af-input"
+                value={editing.posicao}
+                onChange={set('posicao')}
+                aria-label="Posição do banner"
+              >
+                <option value="hero">Topo da página (hero)</option>
+                <option value="rail">Laterais da vitrine (rail)</option>
+              </select>
             </Field>
 
             <div className="af-toggles">

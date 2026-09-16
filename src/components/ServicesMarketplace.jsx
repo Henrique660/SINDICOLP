@@ -5,21 +5,26 @@ import { INDICACAO_ICON_MAP } from '../config/iconMap'
 import { waServiceContact } from '../services/waContact'
 
 /*
-  ServicesMarketplace.jsx — lista de serviços "Nós Indicamos" com busca,
-  filtro por categoria e scroll infinito interno (a página não rola).
+  ServicesMarketplace.jsx — vitrine de serviços "Nós Indicamos" com busca,
+  filtro por categoria e scroll infinito (cresce na própria página).
 
   MANUTENÇÃO:
+  - A vitrine mantém 5 colunas (COLS). Sem caixa de scroll interna: o grid
+    cresce naturalmente para baixo e a página rola — isso evita as alturas
+    fixas gigantes que espremiam a tela em alguns viewports.
+  - O scroll infinito usa um `sentinel` no fim do grid observado por
+    IntersectionObserver: quando ele entra na viewport (com folga de
+    `rootMargin`), `loadMore()` carrega o próximo lote. PAGE_SIZE = 2 linhas.
   - Filtros combinados: a busca respeita a categoria ativa e vice-versa.
-  - Toda mudança de consulta/categoria reinicia `visibleCount` e leva o
-    container de volta ao topo (`generationRef` invalida cargas pendentes).
-  - O scroll infinito funciona dentro de `.mp__scroller` (max-height +
-    overflow-y) usando o evento `onScroll`. INITIAL_COUNT define quantos
-    serviços aparecem na primeira renderização (todos os atuais); PAGE_SIZE
-    é o tamanho de cada lote carregado ao rolar até o fim.
+  - Toda mudança de consulta/categoria reinicia `visibleCount` e invalida
+    cargas pendentes via `generationRef`.
+  - Os banners laterais da vitrine (`.mp__rail`) vivem na Home e reaproveitam
+    o AdCarousel com `variant="rail"`.
 */
 
-const PAGE_SIZE = 3
-const INITIAL_COUNT = 6
+const COLS = 5
+const PAGE_SIZE = COLS * 2
+const INITIAL_COUNT = COLS * 4
 
 export default function ServicesMarketplace() {
   const { indicacoes } = useData()
@@ -27,7 +32,7 @@ export default function ServicesMarketplace() {
   const [category, setCategory] = useState('')
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT)
   const [loading, setLoading] = useState(false)
-  const scrollRef = useRef(null)
+  const sentinelRef = useRef(null)
   const generationRef = useRef(0)
 
   const services = useMemo(
@@ -58,16 +63,15 @@ export default function ServicesMarketplace() {
     })
   }, [services, query, category])
 
-  // Reinicia o scroll infinito sempre que a busca ou a categoria mudam.
+  const visible = filtered.slice(0, visibleCount)
+  const hasMore = visibleCount < filtered.length
+
+  // Reinicia o carregamento sempre que a busca ou a categoria mudam.
   useEffect(() => {
     generationRef.current += 1
     setVisibleCount(INITIAL_COUNT)
     setLoading(false)
-    if (scrollRef.current) scrollRef.current.scrollTop = 0
   }, [query, category])
-
-  const visible = filtered.slice(0, visibleCount)
-  const hasMore = visibleCount < filtered.length
 
   function loadMore() {
     if (loading || !hasMore) return
@@ -82,13 +86,21 @@ export default function ServicesMarketplace() {
     }, 450)
   }
 
-  function handleScroll() {
-    const el = scrollRef.current
-    if (!el) return
-    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 60) {
-      loadMore()
-    }
-  }
+  // Rola a própria página: o sentinel dispara o próximo lote ao se aproximar
+  // da viewport (rootMargin pré-carrega antes do fim visível).
+  useEffect(() => {
+    const el = sentinelRef.current
+    if (!el) return undefined
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) loadMore()
+      },
+      { rootMargin: '520px 0px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visibleCount, loading, hasMore, query, category])
 
   return (
     <div className="mp">
@@ -121,61 +133,61 @@ export default function ServicesMarketplace() {
         </label>
       </div>
 
-      <div className="mp__scroller" ref={scrollRef} onScroll={handleScroll}>
-        {visible.length === 0 ? (
-          <p className="mp__empty">Nenhum serviço encontrado para os filtros atuais.</p>
-        ) : (
-          <div className="rec-grid">
-            {visible.map((r) => {
-              const RIcon = r.icon
-              const hasLink = r.linkExterno && r.linkExterno !== '#'
-              return (
-                <div className="recommend" key={r.id}>
-                  <span className="recommend__icon"><RIcon size={21} /></span>
-                  {hasLink ? (
-                    <h3><a href={r.linkExterno} target="_blank" rel="noopener noreferrer">{r.nome} ↗</a></h3>
-                  ) : (
-                    <h3>{r.nome}</h3>
-                  )}
-                  <p>{r.descricao}</p>
-                  {r.itens.length > 0 && (
-                    <ul>
-                      {r.itens.map((item) => (
-                        <li key={item}>
-                          <IconCheck size={13} />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  <div className="recommend__actions">
-                    <a
-                      className="btn btn--primary btn--sm"
-                      href={waServiceContact(r)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Contatar ${r.nome} no WhatsApp`}
-                    >
-                      <IconWhatsApp size={14} />
-                      Contatar
-                    </a>
-                  </div>
+      {visible.length === 0 ? (
+        <p className="mp__empty">Nenhum serviço encontrado para os filtros atuais.</p>
+      ) : (
+        <div className="rec-grid rec-grid--marketplace">
+          {visible.map((r) => {
+            const RIcon = r.icon
+            const hasLink = r.linkExterno && r.linkExterno !== '#'
+            return (
+              <div className="recommend" key={r.id}>
+                <span className="recommend__icon"><RIcon size={21} /></span>
+                {hasLink ? (
+                  <h3><a href={r.linkExterno} target="_blank" rel="noopener noreferrer">{r.nome} ↗</a></h3>
+                ) : (
+                  <h3>{r.nome}</h3>
+                )}
+                <p>{r.descricao}</p>
+                {r.itens.length > 0 && (
+                  <ul>
+                    {r.itens.map((item) => (
+                      <li key={item}>
+                        <IconCheck size={13} />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <div className="recommend__actions">
+                  <a
+                    className="btn btn--primary btn--sm"
+                    href={waServiceContact(r)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Contatar ${r.nome} no WhatsApp`}
+                  >
+                    <IconWhatsApp size={14} />
+                    Contatar
+                  </a>
                 </div>
-              )
-            })}
-          </div>
-        )}
+              </div>
+            )
+          })}
+        </div>
+      )}
 
-        {loading && (
-          <div className="mp__status" role="status" aria-live="polite">
-            <span className="mp__spinner" aria-hidden="true" />
-            <span>Carregando mais serviços…</span>
-          </div>
-        )}
-        {!loading && hasMore && (
-          <div className="mp__status mp__status--hint">Role para ver mais serviços</div>
-        )}
-      </div>
+      {loading && (
+        <div className="mp__status" role="status" aria-live="polite">
+          <span className="mp__spinner" aria-hidden="true" />
+          <span>Carregando mais serviços…</span>
+        </div>
+      )}
+      {!loading && !hasMore && visible.length > 0 && (
+        <div className="mp__status mp__status--hint">Você viu todos os serviços disponíveis.</div>
+      )}
+
+      <div ref={sentinelRef} className="mp__sentinel" aria-hidden="true" />
     </div>
   )
 }

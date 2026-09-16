@@ -66,12 +66,17 @@ ul { margin: 0; padding: 0; list-style: none; }
   width: min(var(--container), 100% - 2 * clamp(20px, 5vw, 44px));
   margin-inline: auto;
 }
+.container--wide {
+  width: min(1680px, 100% - 2 * clamp(20px, 5vw, 44px));
+  margin-inline: auto;
+}
 .section { padding-block: var(--section-y); }
 .section--tight { padding-block: clamp(44px, 6vw, 72px); }
 .section--surface {
   background: var(--surface);
   border-block: 1px solid var(--border);
 }
+.section--marketplace { padding-block: clamp(36px, 5vw, 56px); }
 .section--accent { /* banda laranja/preto em largura total */
   background: var(--black);
   color: #fff;
@@ -98,6 +103,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   max-width: 680px;
   margin-bottom: clamp(32px, 5vw, 48px);
 }
+.section--marketplace .sec-head { margin-bottom: clamp(20px, 3vw, 28px); }
 .sec-head--center { text-align: center; margin-inline: auto; }
 .sec-head .eyebrow { margin-bottom: 14px; display: block; }
 .sec-head h2 {
@@ -915,7 +921,26 @@ a.btn, button.btn { text-decoration: none; }
 .about__cta .btn svg { width: 15px; height: 15px; }
 
 /* ---------- marketplace (nós indicamos na home) ---------- */
-.mp { max-width: 1060px; margin-inline: auto; }
+.mp { max-width: none; margin-inline: auto; }
+.mp__layout {
+  --mp-row-h: 176px;
+  --mp-gap: 18px;
+  display: grid;
+  grid-template-columns: clamp(150px, 12vw, 220px) minmax(0, 1fr) clamp(150px, 12vw, 220px);
+  gap: clamp(18px, 2.6vw, 30px);
+  align-items: stretch;
+}
+.mp__rail {
+  position: sticky;
+  top: 84px;
+  height: calc(100vh - 110px);
+  min-width: 0;
+}
+.mp__rail .ad-carousel,
+.mp__rail .ad-carousel__stage,
+.mp__rail .ad-carousel__viewport {
+  height: 100%;
+}
 .mp__toolbar {
   display: flex;
   align-items: flex-end;
@@ -977,13 +1002,37 @@ a.btn, button.btn { text-decoration: none; }
   box-shadow: 0 0 0 3px oklch(0.8 0.1 50 / 0.22);
   outline: none;
 }
-.mp__scroller {
-  max-height: 560px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  padding-right: 6px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+.mp .rec-grid--marketplace {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-auto-rows: minmax(var(--mp-row-h), auto);
+  gap: var(--mp-gap);
+}
+.mp__sentinel { height: 0; }
+.mp .recommend {
+  gap: 8px;
+  padding: 14px 14px 12px;
+  min-height: 0;
+  overflow: hidden;
+}
+.mp .recommend__icon { width: 36px; height: 36px; }
+.mp .recommend__icon svg { width: 17px; height: 17px; }
+.mp .recommend h3 { font-size: 14px; line-height: 1.3; }
+.mp .recommend p {
+  font-size: 12.5px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.mp .recommend ul { gap: 5px; font-size: 12px; margin-bottom: 0; }
+.mp .recommend li svg { transform: none; }
+.mp .recommend__actions { margin-top: auto; padding-top: 4px; }
+.mp .recommend__actions .btn {
+  width: 100%;
+  justify-content: center;
+  padding: 7px 10px;
+  font-size: 12px;
 }
 .mp__status {
   display: flex;
@@ -1012,9 +1061,28 @@ a.btn, button.btn { text-decoration: none; }
   color: var(--muted);
   font-size: 14px;
 }
+@media (max-width: 1080px) {
+  /* Sem espaço útil para as 2 laterais + 5 colunas: os banners viram blocos
+     full-width (acima/abaixo da vitrine, carrossel horizontal) e o grid cai
+     para 4 colunas. */
+  .mp__layout { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .mp__rail { position: static; order: 2; height: auto; }
+  .mp__rail--left { order: 0; }
+  .mp__rail--right { order: 4; }
+  .mp__rail .ad-carousel--rail .ad-carousel__viewport { height: clamp(240px, 44vw, 340px); }
+  .rec-grid--marketplace { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 880px) {
+  .rec-grid--marketplace { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .rec-grid--marketplace { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 440px) {
+  .rec-grid--marketplace { grid-template-columns: 1fr; }
+}
 @media (max-width: 760px) {
   .mp__toolbar { flex-direction: column; align-items: stretch; }
-  .mp__scroller { max-height: 500px; }
 }
 
 /* ---------- page hero (inner pages) ---------- */
@@ -1255,6 +1323,21 @@ a.btn, button.btn { text-decoration: none; }
   color: oklch(1 0 0 / 0.9);
   white-space: nowrap;
 }
+
+/* Rail: variante vertical (retângulo) usada nas laterais da Home (.mp__rail).
+   Reaproveita a mesma árvore DOM do AdCarousel — só muda a roupagem. */
+.ad-carousel--rail .ad-carousel__viewport { height: 100%; }
+.ad-carousel--rail .ad-carousel__link { height: 100%; }
+.ad-carousel--rail .ad-carousel__label { display: none; }
+.ad-carousel--rail .ad-carousel__btn { width: 30px; height: 30px; }
+.ad-carousel--rail .ad-carousel__btn[data-dir="prev"] { left: 8px; }
+.ad-carousel--rail .ad-carousel__btn[data-dir="next"] { right: 8px; }
+.ad-carousel--rail .ad-carousel__controls {
+  bottom: 10px;
+  gap: 9px;
+  padding: 5px 10px;
+}
+.ad-carousel--rail .ad-carousel__count { display: none; }
 
 /* ---------- reveal ---------- */
 [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }

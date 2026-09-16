@@ -19,7 +19,6 @@ import WhatsAppFloat from './components/WhatsAppFloat'
 import Home from './pages/Home'
 import Colunistas from './pages/Colunistas'
 import CursosEventos from './pages/CursosEventos'
-import NosIndicamos from './pages/NosIndicamos'
 import AdminLogin from './pages/admin/AdminLogin'
 import AdminLayout from './pages/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
@@ -97,7 +96,6 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/colunistas" element={<Colunistas />} />
         <Route path="/cursos-eventos" element={<CursosEventos />} />
-        <Route path="/nos-indicamos" element={<NosIndicamos />} />
       </Route>
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route

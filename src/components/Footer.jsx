@@ -29,7 +29,6 @@ export default function Footer() {
             <Link to="/">Início</Link>
             <Link to="/cursos-eventos">Cursos e eventos</Link>
             <Link to="/colunistas">Colunistas</Link>
-            <Link to="/nos-indicamos">Nós indicamos</Link>
             <a href={SOCIAL.youtube} target="_blank" rel="noopener">Podcast</a>
             <Link to="/admin">Entrar</Link>
           </div>
@@ -38,7 +37,7 @@ export default function Footer() {
           <h3>Parcerias e conteúdo</h3>
           <div className="footer-links">
             <Link to="/colunistas">Seja um colunista</Link>
-            <Link to="/nos-indicamos">Indique um parceiro</Link>
+            <a href={`mailto:${SITE_EMAIL}`}>Indique um parceiro</a>
             <Link to="/cursos-eventos">Banco de talentos</Link>
             <Link to="/cursos-eventos">Inscrição em cursos</Link>
             <Link to="/cursos-eventos">Agenda de eventos</Link>
