@@ -326,6 +326,10 @@ a.btn, button.btn { text-decoration: none; }
 }
 .nav-toggle svg { width: 20px; height: 20px; stroke: var(--fg); }
 
+/* Backdrop do drawer — inativo por padrão; o PWA (stylepwa.css)
+   o transforma em dimmer do menu slide-in. */
+.nav-backdrop { display: none; }
+
 /* botão de instalação do app (PWA) */
 .nav-install-wrap { position: relative; display: inline-flex; }
 .btn--install {
@@ -1406,7 +1410,7 @@ a.btn, button.btn { text-decoration: none; }
     border-top: 1px solid var(--border);
     padding-block: 10px;
   }
-  .nav-panel.is-open { display: block; }
+  .nav-panel.active { display: block; }
   .nav-list { flex-direction: column; align-items: stretch; gap: 2px; }
   .nav-list a { padding: 13px 10px; border-radius: 6px; }
   .nav-list a::after { display: none; }

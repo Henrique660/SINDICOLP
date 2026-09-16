@@ -27,7 +27,11 @@ import { waServiceContact } from '../services/waContact'
 */
 
 function useCols() {
+  // No PWA standalone o centro é estritamente 2x2: a primeira regra
+  // vence para qualquer tamanho de tela e o lote do scroll infinito
+  // passa a ser 4 itens (2 colunas x 2 linhas).
   const mqs = [
+    { q: '(display-mode: standalone)', c: 2 },
     { q: '(max-width: 640px)', c: 2 },
     { q: '(max-width: 880px)', c: 3 },
     { q: '(max-width: 1080px)', c: 4 }

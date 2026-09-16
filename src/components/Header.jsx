@@ -36,6 +36,12 @@ export default function Header() {
     setOpen(false)
   }, [pathname])
 
+  // Trava o scroll do body enquanto o drawer mobile está aberto
+  useEffect(() => {
+    document.body.classList.toggle('nav-locked', open)
+    return () => document.body.classList.remove('nav-locked')
+  }, [open])
+
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)')
     const update = () => setIsMobile(mq.matches)
@@ -90,7 +96,7 @@ export default function Header() {
           <span className="brand__name">{SITE_NAME}<small>{SITE_TAGLINE}</small></span>
         </Link>
         <nav
-          className={`nav-panel${open ? ' is-open' : ''}`}
+          className={`nav-panel${open ? ' active' : ''}`}
           data-nav-panel
           id="nav-panel"
           aria-label="Navegação principal"
@@ -140,6 +146,11 @@ export default function Header() {
           </button>
         </div>
       </div>
+      <div
+        className={`nav-backdrop${open ? ' active' : ''}`}
+        onClick={() => setOpen(false)}
+        aria-hidden="true"
+      />
     </header>
   )
 }
