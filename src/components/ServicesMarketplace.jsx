@@ -18,8 +18,9 @@ import { waServiceContact } from '../services/waContact'
   - Filtros combinados: a busca respeita a categoria ativa e vice-versa.
   - Toda mudança de consulta/categoria reinicia `visibleCount` e invalida
     cargas pendentes via `generationRef`.
-  - Os banners laterais da vitrine (`.mp__rail`) vivem na Home e reaproveitam
-    o AdCarousel com `variant="rail"`.
+  - Os banners laterais (`.mp__rail`) reaproveitam o AdCarousel com
+    `variant="rail"` — no grid `AdsLayout` usado na Home e nas demais
+    páginas públicas.
 */
 
 const COLS = 5

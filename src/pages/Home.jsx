@@ -1,5 +1,6 @@
 import SectionHead from '../components/SectionHead'
 import AdCarousel from '../components/AdCarousel'
+import AdsLayout from '../components/AdsLayout'
 import ServicesMarketplace from '../components/ServicesMarketplace'
 import { IconBuilding, IconLayers, IconMail, IconPin, IconWhatsApp } from '../components/Icons'
 import { SITE_NAME, SITE_TAGLINE, SITE_EMAIL, SITE_PHONE, PHONE_URL, WA_CHAT } from '../config/site'
@@ -37,17 +38,9 @@ export default function Home() {
         </div>
 
         <div className="container container--wide">
-          <div className="mp__layout">
-            <aside className="mp__rail mp__rail--left" aria-label="Publicidade">
-              <AdCarousel variant="rail" />
-            </aside>
-
+          <AdsLayout>
             <ServicesMarketplace />
-
-            <aside className="mp__rail mp__rail--right" aria-label="Publicidade">
-              <AdCarousel variant="rail" />
-            </aside>
-          </div>
+          </AdsLayout>
         </div>
       </section>
 

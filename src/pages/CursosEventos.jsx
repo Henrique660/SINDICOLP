@@ -4,6 +4,7 @@ import PageHero from '../components/PageHero'
 import CTABand from '../components/CTABand'
 import SectionHead from '../components/SectionHead'
 import EventCard from '../components/EventCard'
+import AdsLayout from '../components/AdsLayout'
 import { IconGraduation, IconWhatsApp } from '../components/Icons'
 import { SITE_NAME, WA_TURMAS, WA_EVENTOS, WA_TREINAMENTO } from '../config/site'
 import { useData } from '../context/DataContext'
@@ -75,7 +76,7 @@ export default function CursosEventos() {
       />
 
       <section className="section" data-od-id="catalogo">
-        <div className="container">
+        <AdsLayout>
           <div className="tabs" role="tablist" aria-label="Cursos e eventos">
             <button
               className="tab"
@@ -150,7 +151,7 @@ export default function CursosEventos() {
               </div>
             </div>
           )}
-        </div>
+        </AdsLayout>
       </section>
 
       <CTABand

@@ -11,9 +11,10 @@ import railImg from '../assets/Blookkorail.png'
 
   MANUTENÇÃO:
   - Usa a coleção `anunciantes` do CMS (AdminAnunciantes): imagem + link externo.
-  - `variant="hero"` (padrão): banner full-bleed no topo da Home.
+  - `variant="hero"` (padrão): banner full-bleed no topo das páginas públicas.
   - `variant="rail"`: retângulo vertical para os espaços publicitários laterais
-    da vitrine (Home). Mesma lógica de autoplay/controles, apenas outra roupagem
+    (Home, Cursos/Eventos e Colunistas — via `.mp__rail`/AdsLayout). Mesma
+    lógica de autoplay/controles, apenas outra roupagem
     (estilo `.ad-carousel--rail` em styles.css).
   - Fallback: quando não há anunciantes do CMS para a variante corrente, uma
     imagem estática é exibida (heroImg ou railImg). Clique nela redireciona

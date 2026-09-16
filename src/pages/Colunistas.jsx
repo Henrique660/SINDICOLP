@@ -1,6 +1,7 @@
 import PageHero from '../components/PageHero'
 import CTABand from '../components/CTABand'
 import SectionHead from '../components/SectionHead'
+import AdsLayout from '../components/AdsLayout'
 import { IconArrowRight } from '../components/Icons'
 import { WA_COLUNISTA } from '../config/site'
 import { useData } from '../context/DataContext'
@@ -52,7 +53,7 @@ export default function Colunistas() {
       />
 
       <section className="section" data-od-id="feed-colunistas">
-        <div className="container">
+        <AdsLayout>
           <SectionHead eyebrow="Conteúdo do portal" title="Leia os artigos mais recentes">
             Uma curadoria de temas práticos para quem administra condomínios, publicada em parceria com os órgãos de classe.
           </SectionHead>
@@ -70,7 +71,7 @@ export default function Colunistas() {
               </a>
             ))}
           </div>
-        </div>
+        </AdsLayout>
       </section>
 
       <CTABand
